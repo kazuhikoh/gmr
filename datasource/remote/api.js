@@ -10,12 +10,12 @@ class Api {
       },
     });
 
-    this.getOwnerFeedsUrl = config.getOwnerFeedsUrl;
+    this.getOwnerFeedsUrl = config.urlGetOwnerFeeds;
 
-    this.getMusicAlbumsUrl = config.getMusicAlbumsUrl;
-    this.getMusicAlbumDetailUrl = config.getMusicAlbumDetailUrl;
+    this.getMusicAlbumsUrl = config.urlGetMusicAlbums;
+    this.getMusicAlbumDetailUrl = config.urlGetMusicAlbumDetail;
     
-    this.getDownloadURLUrl = config.getDownloadURLUrl;
+    this.getDownloadURLUrl = config.urlGetDownloadURL;
   }
   
   getOwnerFeeds(arg1, arg2) {
