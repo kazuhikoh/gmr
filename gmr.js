@@ -10,7 +10,7 @@ app
   .version('3.0.21');
 
 app
-  .command('owner-feed <pageNo> <pageSize>')
+  .command('owner-feeds <pageNo> <pageSize>')
   .action((pageNo, pageSize) => {
     const config = configLoader.load(`${os.homedir()}/.gmr-config.json`);
     cmdOwnerFeeds.exec(config, pageNo, pageSize);
