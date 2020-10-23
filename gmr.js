@@ -6,8 +6,13 @@ const os = require('os');
 const configLoader = require('./datasource/local/config-loader.js');
 
 const cmdOwnerFeeds = require('./internal/owner-feeds.js');
+
 const cmdMusicAlbums = require('./internal/music-albums.js');
 const cmdMusicAlbum = require('./internal/music-album.js');
+
+const cmdBooks = require('./internal/books.js');
+const cmdBookEpisodes = require('./internal/book-episodes.js');
+const cmdBookEpisodePages = require('./internal/book-episode-pages.js');
 
 app
   .version('3.0.21');
@@ -44,6 +49,52 @@ app
     }
     else {
       cmdMusicAlbum.exec(config, albumContentsId, composedContentsId);
+    }
+  });
+
+app
+  .command('books <pageNo> <pageSize>')
+  .option('-p, --pretty', 'pretty print')
+  .action((pageNo, pageSize, cmd) => {
+    const config = configLoader.load(`${os.homedir()}/.gmr-config.json`);
+
+    if (cmd.pretty) {
+      cmdBooks.execPretty(config, pageNo, pageSize);
+    }
+    else {
+      cmdBooks.exec(config, pageNo, pageSize);
+    }
+  });
+
+app
+  .command('book-episodes <bookId>')
+  .option('-p, --pretty', 'pretty print')
+  .option('-d, --deep', 'print image url')
+  .action((bookId, cmd) => {
+    const config = configLoader.load(`${os.homedir()}/.gmr-config.json`);
+
+    if (cmd.pretty) {
+      cmdBookEpisodes.execPretty(config, bookId);
+    }
+    else if (cmd.deep) {
+      cmdBookEpisodes.execDeep(config, bookId);
+    }
+    else {
+      cmdBookEpisodes.exec(config, bookId);
+    }
+  });
+
+app
+  .command('book-episode-pages <bookId> <episodeId> <bookStoryResId>')
+  .option('-p, --pretty', 'pretty print')
+  .action((bookId, episodeId, bookStoryResId, cmd) => {
+    const config = configLoader.load(`${os.homedir()}/.gmr-config.json`);
+
+    if (cmd.pretty) {
+      cmdBookEpisodePages.execPretty(config, bookId, episodeId, bookStoryResId);
+    }
+    else {
+      cmdBookEpisodePages.exec(config, bookId, episodeId, bookStoryResId);
     }
   });
 
