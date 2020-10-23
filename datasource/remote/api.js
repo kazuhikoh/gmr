@@ -10,11 +10,11 @@ class Api {
       },
     });
 
-    this.getOwnerFeedsUrl = config.urlGetOwnerFeeds;
+    this.urlGetOwnerFeeds = config.urlGetOwnerFeeds;
 
-    this.getMusicAlbumsUrl = config.urlGetMusicAlbums;
-    this.getMusicAlbumDetailUrl = config.urlGetMusicAlbumDetail;
-    this.getDownloadURLUrl = config.urlGetDownloadURL;
+    this.urlGetMusicAlbums = config.urlGetMusicAlbums;
+    this.urlGetMusicAlbumDetail = config.urlGetMusicAlbumDetail;
+    this.urlGetDownloadURL = config.urlGetDownloadURL;
 
     this.urlGetBooks = config.urlGetBooks;
     this.urlGetBookEpisodes = config.urlGetBookEpisodes;
@@ -22,7 +22,7 @@ class Api {
   }
   
   getOwnerFeeds(arg1, arg2) {
-    const url = this.getOwnerFeedsUrl
+    const url = this.urlGetOwnerFeeds
       .replace(/ 1 /, arg1)
       .replace(/ 2 /, arg2);
   
@@ -35,7 +35,7 @@ class Api {
   }
 
   getMusicAlbums(arg1, arg2) {
-    const url = this.getMusicAlbumsUrl
+    const url = this.urlGetMusicAlbums
       .replace(/ 1 /, arg1)
       .replace(/ 2 /, arg2);
 
@@ -48,7 +48,7 @@ class Api {
   }
 
   getMusicAlbumDetail(arg1, arg2) {
-    const url = this.getMusicAlbumDetailUrl
+    const url = this.urlGetMusicAlbumDetail
       .replace(/ 1 /, arg1)
       .replace(/ 2 /, arg2);
 
@@ -61,7 +61,7 @@ class Api {
   }
 
   getDownloadURL(arg1) {
-    const url = this.getDownloadURLUrl
+    const url = this.urlGetDownloadURL
       .replace(/ 1 /, arg1);
 
     return Rx.Observable
