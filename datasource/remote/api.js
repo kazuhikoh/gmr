@@ -11,6 +11,7 @@ class Api {
     });
 
     this.urlGetOwnerFeeds = config.urlGetOwnerFeeds;
+    this.urlGetOwnerMypageActivity = config.urlGetOwnerMypageActivity;
 
     this.urlGetMusicAlbums = config.urlGetMusicAlbums;
     this.urlGetMusicAlbumDetail = config.urlGetMusicAlbumDetail;
@@ -33,6 +34,21 @@ class Api {
         return Rx.Observable.from(data.data.feed_list);
       });
   }
+
+  getOwnerMypageActivityLogs(arg1, arg2) {
+    const url = this.urlGetOwnerMypageActivity
+      .replace(/ 1 /, arg1)
+      .replace(/ 2 /, arg2);
+  
+    return Rx.Observable
+      .fromPromise(this.axios.get(url))
+      .map(res => res.data)
+      .flatMap(data => {
+        return Rx.Observable.from(data.data.activity_list);
+      });
+  }
+
+
 
   getMusicAlbums(arg1, arg2) {
     const url = this.urlGetMusicAlbums

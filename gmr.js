@@ -3,9 +3,15 @@
 const app = require('commander');
 const os = require('os');
 
+const dayjs = require('dayjs');
+dayjs.extend(require('dayjs/plugin/utc'));
+dayjs.extend(require('dayjs/plugin/timezone'));
+dayjs.extend(require('dayjs/plugin/customParseFormat'));
+
 const configLoader = require('./datasource/local/config-loader.js');
 
 const cmdOwnerFeeds = require('./internal/owner-feeds.js');
+const cmdOwnerLogs = require('./internal/owner-logs.js');
 
 const cmdMusicAlbums = require('./internal/music-albums.js');
 const cmdMusicAlbum = require('./internal/music-album.js');
@@ -22,6 +28,20 @@ app
   .action((pageNo, pageSize) => {
     const config = configLoader.load(`${os.homedir()}/.gmr-config.json`);
     cmdOwnerFeeds.exec(config, pageNo, pageSize);
+  });
+
+app
+  .command('owner-logs <pageNo> <pageSize>')
+  .option('-p, --pretty', 'pretty print')
+  .action((pageNo, pageSize, cmd) => {
+    const config = configLoader.load(`${os.homedir()}/.gmr-config.json`);
+
+    if (cmd.pretty) {
+      cmdOwnerLogs.execPretty(config, pageNo, pageSize);
+    }
+    else {
+      cmdOwnerLogs.exec(config, pageNo, pageSize);
+    }
   });
 
 app
