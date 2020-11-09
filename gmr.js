@@ -13,6 +13,8 @@ const configLoader = require('./datasource/local/config-loader.js');
 const cmdOwnerFeeds = require('./internal/owner-feeds.js');
 const cmdOwnerLogs = require('./internal/owner-logs.js');
 
+const cmdOfficialFeeds = require('./internal/official-feeds.js');
+
 const cmdMusicAlbums = require('./internal/music-albums.js');
 const cmdMusicAlbum = require('./internal/music-album.js');
 
@@ -42,6 +44,13 @@ app
     else {
       cmdOwnerLogs.exec(config, pageNo, pageSize);
     }
+  });
+
+app
+  .command('official-feeds <offset> <size>')
+  .action((offset, size) => {
+    const config = configLoader.load(`${os.homedir()}/.gmr-config.json`);
+    cmdOfficialFeeds.exec(config, offset, size);
   });
 
 app

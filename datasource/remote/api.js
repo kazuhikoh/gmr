@@ -13,6 +13,8 @@ class Api {
     this.urlGetOwnerFeeds = config.urlGetOwnerFeeds;
     this.urlGetOwnerMypageActivity = config.urlGetOwnerMypageActivity;
 
+    this.urlGetOfficialFeeds = config.urlGetOfficialFeeds;
+
     this.urlGetMusicAlbums = config.urlGetMusicAlbums;
     this.urlGetMusicAlbumDetail = config.urlGetMusicAlbumDetail;
     this.urlGetDownloadURL = config.urlGetDownloadURL;
@@ -48,7 +50,18 @@ class Api {
       });
   }
 
-
+  getOfficialFeeds(arg1, arg2) {
+    const url = this.urlGetOfficialFeeds
+      .replace(/ 1 /, arg1)
+      .replace(/ 2 /, arg2);
+  
+    return Rx.Observable
+      .fromPromise(this.axios.get(url))
+      .map(res => res.data)
+      .flatMap(data => {
+        return Rx.Observable.from(data.data.fanfeed_list_info);
+      });
+  }
 
   getMusicAlbums(arg1, arg2) {
     const url = this.urlGetMusicAlbums
@@ -126,7 +139,6 @@ class Api {
         return Rx.Observable.from(it.data.book_res_info);
       });
   }
-
 
 }
 
