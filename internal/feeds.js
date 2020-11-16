@@ -19,7 +19,7 @@ function execPretty(config, membershipNo, pageNo, pageSize) {
     const utcDate = dayjs.utc(feed.article_date, 'YYYY/MM/DD HH:mm');
     
     console.log(
-      `${feed.article_no} ${utcDate.toJSON()} ${feed.iine_count} ${feed.comment_count} ${feed.nickname} ${feed.body_text.replace(/\n/g, '')}`
+      `${feed.article_no} ${utcDate.local().format()} ${feed.iine_count} ${feed.comment_count} ${feed.nickname} ${feed.body_text.replace(/\n/g, '')}`
     );
   });
 }

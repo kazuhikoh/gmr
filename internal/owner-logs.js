@@ -18,7 +18,7 @@ function execPretty(config, pageNo, pageSize) {
   api.getOwnerMypageActivityLogs(pageNo, pageSize).subscribe(log => {
     const utcDate = dayjs.utc(log.activity_date, 'YYYY/MM/DD HH:mm');
 
-    console.log(`${utcDate.toJSON()} ${log.text}`);
+    console.log(`${utcDate.local().format()} ${log.text}`);
   });
 }
 
