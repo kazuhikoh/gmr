@@ -25,7 +25,7 @@ const cmdBookEpisodes = require('./internal/book-episodes.js');
 const cmdBookEpisodePages = require('./internal/book-episode-pages.js');
 
 app
-  .version('1.2.0');
+  .version('1.3.0');
 
 app
   .command('feeds <membershipNo> <pageNo> <pageSize>')
