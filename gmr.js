@@ -10,6 +10,8 @@ dayjs.extend(require('dayjs/plugin/customParseFormat'));
 
 const configLoader = require('./datasource/local/config-loader.js');
 
+const cmdFeeds = require('./internal/feeds.js');
+
 const cmdOwnerFeeds = require('./internal/owner-feeds.js');
 const cmdOwnerLogs = require('./internal/owner-logs.js');
 
@@ -24,6 +26,20 @@ const cmdBookEpisodePages = require('./internal/book-episode-pages.js');
 
 app
   .version('1.1.0');
+
+app
+  .command('feeds <membershipNo> <pageNo> <pageSize>')
+  .option('-p, --pretty', 'pretty print')
+  .action((membershipNo, pageNo, pageSize, cmd) => {
+    const config = configLoader.load(`${os.homedir()}/.gmr-config.json`);
+
+    if (cmd.pretty) {
+      cmdFeeds.execPretty(config, membershipNo, pageNo, pageSize);
+    }
+    else {
+      cmdFeeds.exec(config, membershipNo, pageNo, pageSize);
+    }
+  });
 
 app
   .command('owner-feeds <pageNo> <pageSize>')
