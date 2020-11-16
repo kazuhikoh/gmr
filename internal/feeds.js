@@ -2,29 +2,26 @@ const dayjs = require('dayjs');
 
 const Api = require('../datasource/remote/api.js');
 
-function exec(config, membershipNo, pageNo, pageSize) {
+function exec(config, membershipNo, pageNo, pageSize, option) {
   const api = new Api(config);
 
   api.getFeeds(membershipNo, pageNo, pageSize).subscribe(feed => {
-    console.log(
-      JSON.stringify(feed, undefined, null)
-    );
-  });
-}
+    if (option.localtime) {
+      const utcDate = dayjs.utc(feed.article_date, 'YYYY/MM/DD HH:mm');
+      feed.article_date = utcDate.local().format();
+    }
 
-function execPretty(config, membershipNo, pageNo, pageSize) {
-  const api = new Api(config);
-
-  api.getFeeds(membershipNo, pageNo, pageSize).subscribe(feed => {
-    const utcDate = dayjs.utc(feed.article_date, 'YYYY/MM/DD HH:mm');
-    
-    console.log(
-      `${feed.article_no} ${utcDate.local().format()} ${feed.iine_count} ${feed.comment_count} ${feed.nickname} ${feed.body_text.replace(/\n/g, '')}`
-    );
+    if (option.pretty) {
+      console.log(
+        `${feed.article_no} ${feed.article_date} ${feed.iine_count} ${feed.comment_count} ${feed.nickname} ${feed.body_text.replace(/\n/g, '')}`
+      );
+    }
+    else {
+      console.log( JSON.stringify(feed, undefined, null) );
+    }
   });
 }
 
 module.exports = {
-  exec, 
-  execPretty
+  exec 
 };

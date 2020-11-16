@@ -30,36 +30,27 @@ app
 app
   .command('feeds <membershipNo> <pageNo> <pageSize>')
   .option('-p, --pretty', 'pretty print')
+  .option('-l, --localtime', 'display time in local')
   .action((membershipNo, pageNo, pageSize, cmd) => {
     const config = configLoader.load(`${os.homedir()}/.gmr-config.json`);
-
-    if (cmd.pretty) {
-      cmdFeeds.execPretty(config, membershipNo, pageNo, pageSize);
-    }
-    else {
-      cmdFeeds.exec(config, membershipNo, pageNo, pageSize);
-    }
+    cmdFeeds.exec(config, membershipNo, pageNo, pageSize, cmd);
   });
 
 app
   .command('owner-feeds <pageNo> <pageSize>')
-  .action((pageNo, pageSize) => {
+  .option('-l, --localtime', 'display time in local')
+  .action((pageNo, pageSize, cmd) => {
     const config = configLoader.load(`${os.homedir()}/.gmr-config.json`);
-    cmdOwnerFeeds.exec(config, pageNo, pageSize);
+    cmdOwnerFeeds.exec(config, pageNo, pageSize, cmd);
   });
 
 app
   .command('owner-logs <pageNo> <pageSize>')
   .option('-p, --pretty', 'pretty print')
+  .option('-l, --localtime', 'display time in local')
   .action((pageNo, pageSize, cmd) => {
     const config = configLoader.load(`${os.homedir()}/.gmr-config.json`);
-
-    if (cmd.pretty) {
-      cmdOwnerLogs.execPretty(config, pageNo, pageSize);
-    }
-    else {
-      cmdOwnerLogs.exec(config, pageNo, pageSize);
-    }
+    cmdOwnerLogs.exec(config, pageNo, pageSize, cmd);
   });
 
 app
@@ -149,4 +140,6 @@ app
     const config = configLoader.createConfig();
     console.log(JSON.stringify(config, undefined, ''));
   });
+
 app.parse(process.argv);
+
