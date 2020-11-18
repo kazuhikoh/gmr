@@ -24,6 +24,8 @@ const cmdBooks = require('./internal/books.js');
 const cmdBookEpisodes = require('./internal/book-episodes.js');
 const cmdBookEpisodePages = require('./internal/book-episode-pages.js');
 
+const cmdUser= require('./internal/user.js');
+
 app
   .version('1.4.0');
 
@@ -132,6 +134,14 @@ app
     else {
       cmdBookEpisodePages.exec(config, bookId, episodeId, bookStoryResId);
     }
+  });
+
+app
+  .command('user <membershipNo>')
+  .action((membershipNo) => {
+    const config = configLoader.load(`${os.homedir()}/.gmr-config.json`);
+
+    cmdUser.exec(config, membershipNo);
   });
 
 app

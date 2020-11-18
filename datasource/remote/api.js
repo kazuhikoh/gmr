@@ -24,6 +24,8 @@ class Api {
     this.urlGetBooks = config.urlGetBooks;
     this.urlGetBookEpisodes = config.urlGetBookEpisodes;
     this.urlGetBookEpisodePages = config.urlGetBookEpisodePages;
+    
+    this.urlGetUser = config.urlGetUser;
   }
 
   getFeeds(arg1, arg2, arg3) {
@@ -153,6 +155,18 @@ class Api {
       .map(res => res.data)
       .flatMap(it => {
         return Rx.Observable.from(it.data.book_res_info);
+      });
+  }
+
+  getUser(arg1) {
+    const url = this.urlGetUser
+      .replace(/ 1 /, arg1);
+  
+    return Rx.Observable
+      .fromPromise(this.axios.get(url))
+      .map(res => res.data)
+      .flatMap(data => {
+        return Rx.Observable.of(data.data);
       });
   }
 
