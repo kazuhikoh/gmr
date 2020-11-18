@@ -27,7 +27,7 @@ const cmdBookEpisodePages = require('./internal/book-episode-pages.js');
 const cmdUser= require('./internal/user.js');
 
 app
-  .version('1.4.0');
+  .version('1.5.0');
 
 app
   .command('feeds <membershipNo> <pageNo> <pageSize>')
