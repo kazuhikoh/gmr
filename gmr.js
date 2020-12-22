@@ -10,13 +10,11 @@ dayjs.extend(require('dayjs/plugin/customParseFormat'));
 
 const configLoader = require('./datasource/local/config-loader.js');
 
+const cmdUser= require('./internal/user.js');
 const cmdFeeds = require('./internal/feeds.js');
-
-const cmdOwnerFeeds = require('./internal/owner-feeds.js');
+const cmdActivity = require('./internal/activity.js');
 
 const cmdOfficialFeeds = require('./internal/official-feeds.js');
-
-const cmdActivity = require('./internal/activity.js');
 
 const cmdMusicAlbums = require('./internal/music-albums.js');
 const cmdMusicAlbum = require('./internal/music-album.js');
@@ -25,10 +23,17 @@ const cmdBooks = require('./internal/books.js');
 const cmdBookEpisodes = require('./internal/book-episodes.js');
 const cmdBookEpisodePages = require('./internal/book-episode-pages.js');
 
-const cmdUser= require('./internal/user.js');
 
 app
   .version('1.5.0');
+
+app
+  .command('user <membershipNo>')
+  .action((membershipNo) => {
+    const config = configLoader.load(`${os.homedir()}/.gmr-config.json`);
+
+    cmdUser.exec(config, membershipNo);
+  });
 
 app
   .command('feeds <membershipNo> <pageNo> <pageSize>')
@@ -37,14 +42,6 @@ app
   .action((membershipNo, pageNo, pageSize, cmd) => {
     const config = configLoader.load(`${os.homedir()}/.gmr-config.json`);
     cmdFeeds.exec(config, membershipNo, pageNo, pageSize, cmd);
-  });
-
-app
-  .command('owner-feeds <pageNo> <pageSize>')
-  .option('-l, --localtime', 'display time in local')
-  .action((pageNo, pageSize, cmd) => {
-    const config = configLoader.load(`${os.homedir()}/.gmr-config.json`);
-    cmdOwnerFeeds.exec(config, pageNo, pageSize, cmd);
   });
 
 app
@@ -135,14 +132,6 @@ app
     else {
       cmdBookEpisodePages.exec(config, bookId, episodeId, bookStoryResId);
     }
-  });
-
-app
-  .command('user <membershipNo>')
-  .action((membershipNo) => {
-    const config = configLoader.load(`${os.homedir()}/.gmr-config.json`);
-
-    cmdUser.exec(config, membershipNo);
   });
 
 app

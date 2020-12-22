@@ -11,9 +11,6 @@ class Api {
     });
 
     this.urlGetFeeds = config.urlGetFeeds;
-
-    this.urlGetOwnerFeeds = config.urlGetOwnerFeeds;
-
     this.urlGetMypageActivity = config.urlGetMypageActivity;
 
     this.urlGetOfficialFeeds = config.urlGetOfficialFeeds;
@@ -34,19 +31,6 @@ class Api {
       .replace(/ 1 /, arg1)
       .replace(/ 2 /, arg2)
       .replace(/ 3 /, arg3);
-  
-    return Rx.Observable
-      .fromPromise(this.axios.get(url))
-      .map(res => res.data)
-      .flatMap(data => {
-        return Rx.Observable.from(data.data.feed_list);
-      });
-  }
-
-  getOwnerFeeds(arg1, arg2) {
-    const url = this.urlGetOwnerFeeds
-      .replace(/ 1 /, arg1)
-      .replace(/ 2 /, arg2);
   
     return Rx.Observable
       .fromPromise(this.axios.get(url))
