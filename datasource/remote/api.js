@@ -13,7 +13,8 @@ class Api {
     this.urlGetFeeds = config.urlGetFeeds;
 
     this.urlGetOwnerFeeds = config.urlGetOwnerFeeds;
-    this.urlGetOwnerMypageActivity = config.urlGetOwnerMypageActivity;
+
+    this.urlGetMypageActivity = config.urlGetMypageActivity;
 
     this.urlGetOfficialFeeds = config.urlGetOfficialFeeds;
 
@@ -55,10 +56,11 @@ class Api {
       });
   }
 
-  getOwnerMypageActivityLogs(arg1, arg2) {
-    const url = this.urlGetOwnerMypageActivity
+  getMypageActivity(arg1, arg2, arg3) {
+    const url = this.urlGetMypageActivity
       .replace(/ 1 /, arg1)
-      .replace(/ 2 /, arg2);
+      .replace(/ 2 /, arg2)
+      .replace(/ 3 /, arg3);
   
     return Rx.Observable
       .fromPromise(this.axios.get(url))

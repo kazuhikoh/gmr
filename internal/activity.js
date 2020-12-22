@@ -2,13 +2,13 @@ const dayjs = require('dayjs');
 
 const Api = require('../datasource/remote/api.js');
 
-function exec(config, pageNo, pageSize, option) {
+function exec(config, membershipNo, pageNo, pageSize, option) {
   const api = new Api(config);
-  
-  api.getOwnerMypageActivityLogs(pageNo, pageSize).subscribe(log => {
+
+  api.getMypageActivity(membershipNo, pageNo, pageSize).subscribe(log => {
     if (option.localtime) {
-      const utcDate = dayjs.utc(log.activity_date, 'YYYY/MM/DD HH:mm');
-      log.activity_date = utcDate.local().format();
+      const utcDate = dayjs.utc(feed.article_date, 'YYYY/MM/DD HH:mm');
+      feed.article_date = utcDate.local().format();
     }
 
     if (option.pretty) {
@@ -21,5 +21,5 @@ function exec(config, pageNo, pageSize, option) {
 }
 
 module.exports = {
-  exec
+  exec 
 };

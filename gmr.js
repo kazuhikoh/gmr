@@ -13,9 +13,10 @@ const configLoader = require('./datasource/local/config-loader.js');
 const cmdFeeds = require('./internal/feeds.js');
 
 const cmdOwnerFeeds = require('./internal/owner-feeds.js');
-const cmdOwnerLogs = require('./internal/owner-logs.js');
 
 const cmdOfficialFeeds = require('./internal/official-feeds.js');
+
+const cmdActivity = require('./internal/activity.js');
 
 const cmdMusicAlbums = require('./internal/music-albums.js');
 const cmdMusicAlbum = require('./internal/music-album.js');
@@ -47,12 +48,12 @@ app
   });
 
 app
-  .command('owner-logs <pageNo> <pageSize>')
+  .command('activity <membershipNo> <pageNo> <pageSize>')
   .option('-p, --pretty', 'pretty print')
   .option('-l, --localtime', 'display time in local')
-  .action((pageNo, pageSize, cmd) => {
+  .action((membershipNo, pageNo, pageSize, cmd) => {
     const config = configLoader.load(`${os.homedir()}/.gmr-config.json`);
-    cmdOwnerLogs.exec(config, pageNo, pageSize, cmd);
+    cmdActivity.exec(config, membershipNo, pageNo, pageSize, cmd);
   });
 
 app
