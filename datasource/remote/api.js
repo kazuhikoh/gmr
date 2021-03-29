@@ -89,6 +89,10 @@ class Api {
       .fromPromise(this.axios.get(url))
       .map(res => res.data)
       .flatMap(it => {
+        if (!it.data) {
+          return Rx.Observable.throw(new Error(''));
+        }
+
         return Rx.Observable.from(it.data.album_detail_info.track_info);
       });
   }
