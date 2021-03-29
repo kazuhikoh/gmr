@@ -7,8 +7,8 @@ function exec(config, membershipNo, pageNo, pageSize, option) {
 
   api.getMypageActivity(membershipNo, pageNo, pageSize).subscribe(log => {
     if (option.localtime) {
-      const utcDate = dayjs.utc(feed.article_date, 'YYYY/MM/DD HH:mm');
-      feed.article_date = utcDate.local().format();
+      const utcDate = dayjs.utc(log.article_date, 'YYYY/MM/DD HH:mm');
+      log.article_date = utcDate.local().format();
     }
 
     if (option.pretty) {
