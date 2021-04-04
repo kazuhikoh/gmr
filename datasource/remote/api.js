@@ -4,10 +4,7 @@ const axios = require('axios');
 class Api {
   constructor(config) {
     this.axios = axios.create({
-      headers: {
-        'Accept-Language': 'ja',
-        'Cookie': config.cookieSession
-      },
+      headers: config.headers,
     });
 
     this.urlGetFeeds = config.urlGetFeeds;
