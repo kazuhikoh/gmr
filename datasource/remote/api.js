@@ -29,7 +29,7 @@ class Api {
     if (arg2 != null) { url = url.replace(/ 2 /, arg2) }
     if (arg3 != null) { url = url.replace(/ 3 /, arg3) }
       
-    const res = await axios.get(url)
+    const res = await this.axios.get(url)
 
     if (!res.data.head || !res.data.head.resultCode || !res.data.head.resultCode.match(/^SS.*/g)) {
       const json = JSON.stringify(res.data, undefined, null)
