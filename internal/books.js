@@ -3,11 +3,16 @@ const Api = require('../datasource/remote/api.js');
 function exec(config, pageNo, pageSize) {
   const api = new Api(config);
 
-  api.getBooks(pageNo, pageSize).subscribe(book => {
-    console.log(
-      JSON.stringify(book, undefined, null)
-    );
-  });
+  api.getBooks(pageNo, pageSize).subscribe(
+    book => {
+      console.log(
+        JSON.stringify(book, undefined, null)
+      );
+    },
+    error => {
+      console.error(error.message);
+    }
+  );
 }
 
 function execPretty(config, pageNo, pageSize) {

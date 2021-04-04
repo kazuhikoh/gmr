@@ -26,16 +26,28 @@ class Api {
     this.urlGetUser = config.urlGetUser;
   }
 
+  getData(url) {
+    return Rx.Observable
+      .fromPromise(this.axios.get(url))
+      .flatMap(res => {
+        if (!res.data || !res.data.head || !res.data.head.resultCode || !res.data.head.resultCode.match(/^SS.*/g)) {
+          const json = JSON.stringify(res.data, undefined, null);
+          return Rx.Observable.throw(new Error(json))
+        } 
+
+        return Rx.Observable.of(res.data)
+      })
+  }
+
   getFeeds(arg1, arg2, arg3) {
     const url = this.urlGetFeeds
       .replace(/ 1 /, arg1)
       .replace(/ 2 /, arg2)
       .replace(/ 3 /, arg3);
   
-    return Rx.Observable
-      .fromPromise(this.axios.get(url))
-      .map(res => res.data)
+    return this.getData(url)
       .flatMap(data => {
+        console.log(JSON.stringify(data, undefined, null))
         return Rx.Observable.from(data.data.feed_list);
       });
   }
@@ -46,9 +58,7 @@ class Api {
       .replace(/ 2 /, arg2)
       .replace(/ 3 /, arg3);
   
-    return Rx.Observable
-      .fromPromise(this.axios.get(url))
-      .map(res => res.data)
+    return this.getData(url)
       .flatMap(data => {
         return Rx.Observable.from(data.data.activity_list);
       });
@@ -59,9 +69,7 @@ class Api {
       .replace(/ 1 /, arg1)
       .replace(/ 2 /, arg2);
   
-    return Rx.Observable
-      .fromPromise(this.axios.get(url))
-      .map(res => res.data)
+    return this.getData(url)
       .flatMap(data => {
         return Rx.Observable.from(data.data.fanfeed_list_info);
       });
@@ -72,9 +80,7 @@ class Api {
       .replace(/ 1 /, arg1)
       .replace(/ 2 /, arg2);
 
-    return Rx.Observable
-      .fromPromise(this.axios.get(url))
-      .map(res => res.data)
+    return this.getData(url)
       .flatMap(it => {
         return Rx.Observable.from(it.data.music_album_list_info);
       });
@@ -85,15 +91,9 @@ class Api {
       .replace(/ 1 /, arg1)
       .replace(/ 2 /, arg2);
 
-    return Rx.Observable
-      .fromPromise(this.axios.get(url))
-      .map(res => res.data)
+    return this.getData(url)
       .flatMap(it => {
-        if (!it.data) {
-          return Rx.Observable.throw(new Error(''));
-        }
-
-        return Rx.Observable.from(it.data.album_detail_info.track_info);
+        return Rx.Observable.from(it.album_detail_info.track_info);
       });
   }
 
@@ -101,9 +101,7 @@ class Api {
     const url = this.urlGetDownloadURL
       .replace(/ 1 /, arg1);
 
-    return Rx.Observable
-      .fromPromise(this.axios.get(url))
-      .map(res => res.data)
+    return this.getData(url)
       .flatMap(it => {
         return Rx.Observable.of(it.data.url);
       });
@@ -114,9 +112,7 @@ class Api {
       .replace(/ 1 /, arg1)
       .replace(/ 2 /, arg2);
 
-    return Rx.Observable
-      .fromPromise(this.axios.get(url))
-      .map(res => res.data)
+    return this.getData(url)
       .flatMap(it => {
         return Rx.Observable.from(it.data.book_info);
       });
@@ -126,9 +122,7 @@ class Api {
     const url = this.urlGetBookEpisodes
       .replace(/ 1 /, arg1);
 
-    return Rx.Observable
-      .fromPromise(this.axios.get(url))
-      .map(res => res.data)
+    return this.getData(url)
       .flatMap(it => {
         return Rx.Observable.from(it.data.book_episode_list_info);
       });
@@ -140,9 +134,7 @@ class Api {
       .replace(/ 2 /, arg2)
       .replace(/ 3 /, arg3);
 
-    return Rx.Observable
-      .fromPromise(this.axios.get(url))
-      .map(res => res.data)
+    return this.getData(url)
       .flatMap(it => {
         return Rx.Observable.from(it.data.book_res_info);
       });
@@ -152,9 +144,7 @@ class Api {
     const url = this.urlGetUser
       .replace(/ 1 /, arg1);
   
-    return Rx.Observable
-      .fromPromise(this.axios.get(url))
-      .map(res => res.data)
+    return this.getData(url)
       .flatMap(data => {
         return Rx.Observable.of(data.data);
       });

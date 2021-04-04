@@ -7,8 +7,9 @@ function exec(config, albumContentsId, composedContentsId) {
     track => {
       console.log( JSON.stringify(track, undefined, null) );
     },
-    error => { console.error('empty'); },
-    () => {}
+    error => {
+      console.error(error.message);
+    }
   );
 }
 
@@ -21,8 +22,9 @@ function execPretty(config, albumContentsId, composedContentsId) {
         console.log(`${url} ${track.title}`);
       });
     },
-    error => { console.error('empty'); },
-    () => {}
+    error => {
+      console.error(error.message);
+    },
   );
 }
 
