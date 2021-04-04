@@ -31,9 +31,19 @@ class Api {
       
     const res = await this.axios.get(url)
 
-    if (!res.data.head || !res.data.head.resultCode || !res.data.head.resultCode.match(/^SS.*/g)) {
-      const json = JSON.stringify(res.data, undefined, null)
-      throw json
+    // head
+    if (!res.data.head) {
+      throw JSON.stringify(res.data, undefined, null)
+    }
+
+    // head.result_code
+    if (res.data.head.result_code && !res.data.head.result_code.match(/^SS.*/g)) {
+      throw JSON.stringify(res.data, undefined, null)
+    }
+    
+    // head.resultCode
+    if (res.data.head.resultCode && !res.data.head.resultCode.match(/^SS.*/g)) {
+      throw JSON.stringify(res.data, undefined, null)
     }
 
     return res.data
