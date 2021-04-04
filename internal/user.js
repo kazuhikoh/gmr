@@ -1,16 +1,17 @@
 const Api = require('../datasource/remote/api.js');
 
 function exec(config, membershipNo) {
-  const api = new Api(config);
-  
-  api.getUser(membershipNo).subscribe(
-    user => {
-      console.log( JSON.stringify(user, undefined, null) );
-    },
-    error => {
-      console.error(error.message);
+  (async () => {
+    const api = new Api(config)
+
+    try {
+      const user = await api.getUser(membershipNo)
+      console.log( JSON.stringify(user, undefined, null) )
     }
-  );
+    catch (e) {
+      console.error(e)
+    }
+  })()
 }
 
 module.exports = {

@@ -26,128 +26,70 @@ class Api {
     this.urlGetUser = config.urlGetUser;
   }
 
-  getData(url) {
-    return Rx.Observable
-      .fromPromise(this.axios.get(url))
-      .flatMap(res => {
-        if (!res.data || !res.data.head || !res.data.head.resultCode || !res.data.head.resultCode.match(/^SS.*/g)) {
-          const json = JSON.stringify(res.data, undefined, null);
-          return Rx.Observable.throw(new Error(json))
-        } 
+  async httpGet(urlSkel, arg1, arg2, arg3) {
+    let url = urlSkel
+    if (arg1 != null) { url = url.replace(/ 1 /, arg1) }
+    if (arg2 != null) { url = url.replace(/ 2 /, arg2) }
+    if (arg3 != null) { url = url.replace(/ 3 /, arg3) }
+      
+    const res = await axios.get(url)
 
-        return Rx.Observable.of(res.data)
-      })
+    if (!res.data.head || !res.data.head.resultCode || !res.data.head.resultCode.match(/^SS.*/g)) {
+      const json = JSON.stringify(res.data, undefined, null)
+      throw json
+    }
+
+    return res.data
   }
 
-  getFeeds(arg1, arg2, arg3) {
-    const url = this.urlGetFeeds
-      .replace(/ 1 /, arg1)
-      .replace(/ 2 /, arg2)
-      .replace(/ 3 /, arg3);
-  
-    return this.getData(url)
-      .flatMap(data => {
-        console.log(JSON.stringify(data, undefined, null))
-        return Rx.Observable.from(data.data.feed_list);
-      });
+  async getFeeds(arg1, arg2, arg3) {
+    const body = await this.httpGet(this.urlGetFeeds, arg1, arg2, arg3)
+    return body.data.feed_list
   }
 
-  getMypageActivity(arg1, arg2, arg3) {
-    const url = this.urlGetMypageActivity
-      .replace(/ 1 /, arg1)
-      .replace(/ 2 /, arg2)
-      .replace(/ 3 /, arg3);
-  
-    return this.getData(url)
-      .flatMap(data => {
-        return Rx.Observable.from(data.data.activity_list);
-      });
+  async getMypageActivity(arg1, arg2, arg3) {
+    const body = await this.httpGet(this.urlGetMypageActivity, arg1, arg2, arg3)
+    return body.data.activity_list
   }
 
-  getOfficialFeeds(arg1, arg2) {
-    const url = this.urlGetOfficialFeeds
-      .replace(/ 1 /, arg1)
-      .replace(/ 2 /, arg2);
-  
-    return this.getData(url)
-      .flatMap(data => {
-        return Rx.Observable.from(data.data.fanfeed_list_info);
-      });
+  async getOfficialFeeds(arg1, arg2) {
+    const body = await this.httpGet(this.urlGetOfficialFeeds, arg1, arg2)
+    return body.data.fanfeed_list_info
   }
 
-  getMusicAlbums(arg1, arg2) {
-    const url = this.urlGetMusicAlbums
-      .replace(/ 1 /, arg1)
-      .replace(/ 2 /, arg2);
-
-    return this.getData(url)
-      .flatMap(it => {
-        return Rx.Observable.from(it.data.music_album_list_info);
-      });
+  async getMusicAlbums(arg1, arg2) {
+    const body = await this.httpGet(this.urlGetMusicAlbums, arg1, arg2)
+    return body.data.music_album_list_info
   }
 
-  getMusicAlbumDetail(arg1, arg2) {
-    const url = this.urlGetMusicAlbumDetail
-      .replace(/ 1 /, arg1)
-      .replace(/ 2 /, arg2);
-
-    return this.getData(url)
-      .flatMap(it => {
-        return Rx.Observable.from(it.album_detail_info.track_info);
-      });
+  async getMusicAlbumDetail(arg1, arg2) {
+    const body = await this.httpGet(this.urlGetMusicAlbumDetail, arg1, arg2)
+    return body.data.album_detail_info.track_info
   }
 
-  getDownloadURL(arg1) {
-    const url = this.urlGetDownloadURL
-      .replace(/ 1 /, arg1);
-
-    return this.getData(url)
-      .flatMap(it => {
-        return Rx.Observable.of(it.data.url);
-      });
+  async getDownloadURL(arg1) {
+    const body = await this.httpGet(this.urlGetDownloadURL, arg1)
+    return body.data.url
   }
 
-  getBooks(arg1, arg2) {
-    const url = this.urlGetBooks
-      .replace(/ 1 /, arg1)
-      .replace(/ 2 /, arg2);
-
-    return this.getData(url)
-      .flatMap(it => {
-        return Rx.Observable.from(it.data.book_info);
-      });
+  async getBooks(arg1, arg2) {
+    const body = await this.httpGet(this.urlGetBooksi, arg1, arg2)
+    return body.data.book_info
   }
 
-  getBookEpisodes(arg1) {
-    const url = this.urlGetBookEpisodes
-      .replace(/ 1 /, arg1);
-
-    return this.getData(url)
-      .flatMap(it => {
-        return Rx.Observable.from(it.data.book_episode_list_info);
-      });
+  async getBookEpisodes(arg1) {
+    const body = await this.httpGet(this.urlGetBookEpisodes, arg1)
+    return body.data.book_episode_list_info
   }
 
-  getBookEpisodePages(arg1, arg2, arg3) {
-    const url = this.urlGetBookEpisodePages
-      .replace(/ 1 /, arg1)
-      .replace(/ 2 /, arg2)
-      .replace(/ 3 /, arg3);
-
-    return this.getData(url)
-      .flatMap(it => {
-        return Rx.Observable.from(it.data.book_res_info);
-      });
+  async getBookEpisodePages(arg1, arg2, arg3) {
+    const body = await this.httpGet(this.urlGetBookEpisodePages, arg1, arg2, arg3)
+    return body.data.book_res_info
   }
 
-  getUser(arg1) {
-    const url = this.urlGetUser
-      .replace(/ 1 /, arg1);
-  
-    return this.getData(url)
-      .flatMap(data => {
-        return Rx.Observable.of(data.data);
-      });
+  async getUser(arg1) {
+    const body = await this.httpGet(this.urlGetUser, arg1)
+    return body.data
   }
 
 }

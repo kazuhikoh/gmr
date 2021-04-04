@@ -1,26 +1,35 @@
-const Api = require('../datasource/remote/api.js');
+const Api = require('../datasource/remote/api.js')
 
 function exec(config, bookContentsId, episodeContentsId, bookStoryResId) {
-  const api = new Api(config);
+  (async () => {
+    const api = new Api(config);
 
-  api.getBookEpisodePages(bookContentsId, episodeContentsId, encodeURI(bookStoryResId)).subscribe(
-    page => {
+    try {
+      const pages = await api.getBookEpisodePages(bookContentsId, episodeContentsId, encodeURI(bookStoryResId))
       console.log(
-        JSON.stringify(page, undefined, null)
+        JSON.stringify(pages, undefined, null)
       );
-    },
-    error => {
-      console.error(error.message);
     }
-  );
+    catch (e) {
+      console.error(e)
+    }
+  })()
 }
 
 function execPretty(config, bookContentsId, episodeContentsId, bookStoryResId) {
-  const api = new Api(config);
+  (async () => {
+    const api = new Api(config);
 
-  api.getBookEpisodePages(bookContentsId, episodeContentsId, encodeURI(bookStoryResId)).subscribe(page => {
-    console.log(`${page.book_res_image_url} ${page.page_no}`);
-  });
+    try {
+      const pages = await api.getBookEpisodePages(bookContentsId, episodeContentsId, encodeURI(bookStoryResId))
+      for (let page of pages) {
+        console.log(`${page.book_res_image_url} ${page.page_no}`)
+      }
+    }
+    catch (e) {
+      console.error(e)
+    }
+  })()
 }
 
 module.exports = {

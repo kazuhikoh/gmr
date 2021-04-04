@@ -1,30 +1,33 @@
 const Api = require('../datasource/remote/api.js');
 
 function exec(config, pageNo, pageSize) {
-  const api = new Api(config);
+  (async () => {
+    const api = new Api(config);
 
-  api.getMusicAlbums(pageNo, pageSize).subscribe(
-    album => {
-      console.log(
-        JSON.stringify(album, undefined, null)
-      );
-    },
-    error => {
-      console.error(error.message);
-    });
+    try {
+      const albums = await api.getMusicAlbums(pageNo, pageSize)
+      console.log( JSON.stringify(albums, undefined, null));
+    }
+    catch (e) {
+      console.error(e)
+    }
+  })()
 }
 
 function execPretty(config, pageNo, pageSize) {
-  const api = new Api(config);
+  (async () => {
+    const api = new Api(config);
 
-  api.getMusicAlbums(pageNo, pageSize).subscribe(
-    album => {
-      console.log(`${album.contents_id} ${album.composed_contents_id} ${album.title}`);
-    },
-    error => {
-      console.error(error.message);
+    try {
+      const albums = await api.getMusicAlbums(pageNo, pageSize)
+      for (let album of albums) {
+        console.log(`${album.contents_id} ${album.composed_contents_id} ${album.title}`);
+      }
     }
-  );
+    catch (e) {
+      console.error(e)
+    }
+  })()
 }
 
 module.exports = {

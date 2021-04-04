@@ -3,26 +3,32 @@ const dayjs = require('dayjs');
 const Api = require('../datasource/remote/api.js');
 
 function exec(config, membershipNo, pageNo, pageSize, option) {
-  const api = new Api(config);
+  (async () => {
+    const api = new Api(config);
 
-  api.getMypageActivity(membershipNo, pageNo, pageSize).subscribe(
-    log => {
+    try {
+      const logs = await api.getMypageActivity(membershipNo, pageNo, pageSize)
+
       if (option.localtime) {
-        const utcDate = dayjs.utc(log.activity_date, 'YYYY/MM/DD HH:mm');
-        log.activity_date = utcDate.local().format();
+        for (let log of logs) {
+          const utcDate = dayjs.utc(log.activity_date, 'YYYY/MM/DD HH:mm');
+          log.activity_date = utcDate.local().format();
+        }
       }
-  
+
       if (option.pretty) {
-        console.log(`${log.activity_date} ${log.text}`);
+        for (let log of logs) {
+          console.log(`${log.activity_date} ${log.text}`);
+        }
+        return 
       }
-      else {
-        console.log( JSON.stringify(log, undefined, null) );
-      }
-    },
-    error => {
-      console.error(error.message);
+
+      console.log( JSON.stringify(logs, undefined, null) );
     }
-  );
+    catch (e) {
+      console.error(e)
+    }
+  })()
 }
 
 module.exports = {
