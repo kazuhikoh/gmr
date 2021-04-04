@@ -25,7 +25,7 @@ const cmdBookEpisodePages = require('./internal/book-episode-pages.js');
 
 
 app
-  .version('1.5.7');
+  .version('1.5.8');
 
 app
   .command('user <membershipNo>')
