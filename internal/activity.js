@@ -16,14 +16,14 @@ function exec(config, membershipNo, pageNo, pageSize, option) {
         }
       }
 
-      if (option.pretty) {
-        for (let log of logs) {
+      for (let log of logs) {
+        if (option.pretty) {
           console.log(`${log.activity_date} ${log.text}`);
         }
-        return 
+        else {
+          console.log( JSON.stringify(log, undefined, null) );
+        }
       }
-
-      console.log( JSON.stringify(logs, undefined, null) );
     }
     catch (e) {
       console.error(e)

@@ -5,8 +5,10 @@ function exec(config, albumContentsId, composedContentsId) {
     const api = new Api(config);
 
     try {
-      const track = await api.getMusicAlbumDetail(albumContentsId, composedContentsId)
-      console.log( JSON.stringify(track, undefined, null) );
+      const tracks = await api.getMusicAlbumDetail(albumContentsId, composedContentsId)
+      for (let track of tracks) {
+        console.log( JSON.stringify(track, undefined, null) );
+      }
     }
     catch (e) {
       console.error(e)
@@ -19,9 +21,11 @@ function execPretty(config, albumContentsId, composedContentsId) {
     const api = new Api(config);
 
     try {
-      const track = await api.getMusicAlbumDetail(albumContentsId, composedContentsId)
-      const url = await api.getDownloadURL(track.contents_id)
-      console.log(`${url} ${track.title}`);
+      const tracks = await api.getMusicAlbumDetail(albumContentsId, composedContentsId)
+      for (let track of tracks) {
+        const url = await api.getDownloadURL(track.contents_id)
+        console.log(`${url} ${track.title}`);
+      }
     }
     catch (e) {
       console.error(e)

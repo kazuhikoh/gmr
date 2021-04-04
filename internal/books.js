@@ -6,7 +6,9 @@ function exec(config, pageNo, pageSize) {
 
     try {
       const books = await api.getBooks(pageNo, pageSize)
-      console.log( JSON.stringify(books, undefined, null));
+      for (let book of books) {
+        console.log( JSON.stringify(book, undefined, null));
+      }
     }
     catch (e) {
       console.error(e)

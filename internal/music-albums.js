@@ -6,7 +6,9 @@ function exec(config, pageNo, pageSize) {
 
     try {
       const albums = await api.getMusicAlbums(pageNo, pageSize)
-      console.log( JSON.stringify(albums, undefined, null));
+      for (let album of albums) {
+        console.log( JSON.stringify(album, undefined, null));
+      }
     }
     catch (e) {
       console.error(e)

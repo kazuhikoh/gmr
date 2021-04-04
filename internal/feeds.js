@@ -16,17 +16,16 @@ function exec(config, membershipNo, pageNo, pageSize, option) {
         }
       }
 
-      if (option.pretty) {
-        for (let feed of feeds) {
+      for (let feed of feeds) {
+        if (option.pretty) {
           console.log(
             `${feed.article_no} ${feed.article_date} ${feed.iine_count} ${feed.comment_count} ${feed.nickname} ${feed.body_text.replace(/\n/g, '')}`
           );
-
         }
-        return
+        else {
+          console.log( JSON.stringify(feed, undefined, null) );
+        }
       }
-
-      console.log( JSON.stringify(feeds, undefined, null) );
     }
     catch (e) {
       console.error(e)

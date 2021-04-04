@@ -6,7 +6,9 @@ function exec(config, offset, size) {
 
     try {
       const feeds = await api.getOfficialFeeds(offset, size)
-      console.log( JSON.stringify(feeds, undefined, null));
+      for (let feed of feeds) {
+        console.log( JSON.stringify(feed, undefined, null));
+      }
     }
     catch (e) {
       console.error(e)

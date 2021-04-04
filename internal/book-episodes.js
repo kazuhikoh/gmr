@@ -6,9 +6,9 @@ function exec(config, bookContentsId) {
 
     try {
       const episodes = await api.getBookEpisodes(bookContentsId)
-      console.log(
-        JSON.stringify(episodes, undefined, null)
-      );
+      for (let episode of episodes) {
+        console.log( JSON.stringify(episode, undefined, null));
+      }
     }
     catch (e) {
       console.error(e)
