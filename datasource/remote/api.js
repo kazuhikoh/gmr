@@ -8,6 +8,8 @@ class Api {
     });
 
     this.urlGetFeeds = config.urlGetFeeds;
+    this.urlGetComments = config.urlGetComments;
+
     this.urlGetMypageActivity = config.urlGetMypageActivity;
 
     this.urlGetOfficialFeeds = config.urlGetOfficialFeeds;
@@ -52,6 +54,11 @@ class Api {
   async getFeeds(arg1, arg2, arg3) {
     const body = await this.httpGet(this.urlGetFeeds, arg1, arg2, arg3)
     return body.data.feed_list
+  }
+
+  async getComments(arg1, arg2, arg3) {
+    const body = await this.httpGet(this.urlGetComments, arg1, arg2, arg3)
+    return body.data.comment_list_info
   }
 
   async getMypageActivity(arg1, arg2, arg3) {

@@ -12,6 +12,7 @@ const configLoader = require('./datasource/local/config-loader.js');
 
 const cmdUser= require('./internal/user.js');
 const cmdFeeds = require('./internal/feeds.js');
+const cmdComment = require('./internal/comment.js')
 const cmdActivity = require('./internal/activity.js');
 
 const cmdOfficialFeeds = require('./internal/official-feeds.js');
@@ -42,6 +43,13 @@ app
   .action((membershipNo, pageNo, pageSize, cmd) => {
     const config = configLoader.load(`${os.homedir()}/.gmr-config.json`);
     cmdFeeds.exec(config, membershipNo, pageNo, pageSize, cmd);
+  });
+
+app
+  .command('comment <articleNo> <startNo> <count>')
+  .action((articleNo, startNo, count) => {
+    const config = configLoader.load(`${os.homedir()}/.gmr-config.json`);
+    cmdComment.exec(config, articleNo, startNo, count);
   });
 
 app
