@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/kazuhikoh/gmr#readme",
   "dependencies": {
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "commander": "^6.1.0",
     "dayjs": "^1.9.4",
     "rxjs": "^6.6.3",
